@@ -1,0 +1,89 @@
+version: "3.2"
+networks:
+  web:
+    external: true
+  backend:
+services:
+  php:
+    container_name: ${prefix}_php
+    build:
+      args:
+        - web_user=${web_user}
+        - web_group=${web_group}
+        - apache_root=${apache_root}
+        - web_root=${web_root}
+        - workdir=${workdir}
+        - prefix=prefix
+        - user=${user}
+        - uid=${uid}
+        - domain=${domain}
+      context: ./php
+      dockerfile: Dockerfile
+    environment:
+      - web_user= ${web_user}
+      - web_group= ${web_group}
+      - apache_root= ${apache_root}
+      - web_root= ${web_root}
+      - workdir= ${workdir}
+      - prefix=prefix
+      - user=${user}
+      - uid=${uid}
+      - domain=${domain}
+    networks:
+      - backend
+    restart: always
+    volumes:
+      - ./public_html/:/var/www/html
+  apache:
+    container_name: ${prefix}_apache
+    build:
+      context: ./apache
+      dockerfile: Dockerfile
+      args:
+        - web_user=${web_user}
+        - web_group=${web_group}
+        - apache_root=${apache_root}
+        - web_root=${web_root}
+        - workdir=${workdir}
+        - prefix=prefix
+        - user=${user}
+        - uid=${uid}
+        - domain=${domain}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${prefix}_web.rule=Host(`${domain}`)"
+      - "traefik.http.routers.${prefix}_web.entrypoints=web"
+      - "traefik.http.routers.${prefix}_websecure.rule=Host(`${domain}`)"
+      - "traefik.http.routers.${prefix}_websecure.entrypoints=websecure"
+      - "traefik.http.routers.${prefix}_websecure.tls.certresolver=myresolver"
+      - "traefik.docker.network=web"
+
+    environment:
+      - web_user=${web_user}
+      - web_group=${web_group}
+      - apache_root=${apache_root}
+      - web_root=${web_root}
+      - workdir=${workdir}
+      - prefix=prefix
+      - user=${user}
+      - uid=${uid}
+      - domain=${domain}
+    depends_on:
+      - php
+      # - mysql
+    networks:
+      - web
+      - backend
+    restart: always
+    volumes:
+      - ./public_html/:/var/www/html
+  mysql:
+    container_name: ${prefix}_mysql
+    image: mysql:5.6.40
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    networks:
+      - backend
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
