@@ -8,27 +8,15 @@ services:
     container_name: ${prefix}_php
     build:
       args:
-        - web_user=${web_user}
-        - web_group=${web_group}
-        - apache_root=${apache_root}
-        - web_root=${web_root}
         - workdir=${workdir}
-        - prefix=prefix
         - user=${user}
         - uid=${uid}
-        - domain=${domain}
       context: ./php
       dockerfile: Dockerfile
     environment:
-      - web_user= ${web_user}
-      - web_group= ${web_group}
-      - apache_root= ${apache_root}
-      - web_root= ${web_root}
-      - workdir= ${workdir}
-      - prefix=prefix
-      - user=${user}
-      - uid=${uid}
-      - domain=${domain}
+       - workdir=${workdir}
+        - user=${user}
+        - uid=${uid}
     networks:
       - backend
     restart: always
@@ -40,15 +28,8 @@ services:
       context: ./apache
       dockerfile: Dockerfile
       args:
-        - web_user=${web_user}
-        - web_group=${web_group}
-        - apache_root=${apache_root}
-        - web_root=${web_root}
         - workdir=${workdir}
-        - prefix=prefix
-        - user=${user}
-        - uid=${uid}
-        - domain=${domain}
+        - web_root=${web_root}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${prefix}_web.rule=Host(`${domain}`)"
@@ -59,18 +40,11 @@ services:
       - "traefik.docker.network=web"
 
     environment:
-      - web_user=${web_user}
-      - web_group=${web_group}
-      - apache_root=${apache_root}
-      - web_root=${web_root}
       - workdir=${workdir}
-      - prefix=prefix
-      - user=${user}
-      - uid=${uid}
-      - domain=${domain}
+      - web_root=${web_root}
     depends_on:
       - php
-      # - mysql
+      - mysql
     networks:
       - web
       - backend
