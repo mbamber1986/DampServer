@@ -28,7 +28,7 @@ RUN useradd -G www-data,root -u 1000 -d /home/user user
 RUN mkdir -p /home/user/.composer && \
     chown -R user:user /home/user
 
-WORKDIR ${workdir}
+WORKDIR /var/www/html
 
 # Set working directory
 
