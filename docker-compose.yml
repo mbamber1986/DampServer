@@ -11,7 +11,9 @@ services:
       - backend
     restart: always
     volumes:
-      - ./public_html/:/var/www/html
+      - ./public_html/:/var/www
+    environment: 
+      - workdir=${workdir}
   apache:
     container_name: ${prefix}_apache
     image: mbamber1986/apache

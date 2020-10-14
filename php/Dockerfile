@@ -3,7 +3,7 @@ FROM php:7.4-fpm
 # ENVuments defined in docker-compose.yml
 
 
-
+ENV workdir = ${workdir}
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -28,10 +28,12 @@ RUN useradd -G www-data,root -u 1000 -d /home/user user
 RUN mkdir -p /home/user/.composer && \
     chown -R user:user /home/user
 
-# Set working directory
-WORKDIR /var/www/html
+WORKDIR ${workdir}
 
-RUN composer create-project --prefer-dist laravel/laravel src
+# Set working directory
+
+# RUN composer create-project --prefer-dist laravel/laravel src
+
 
 
 USER user
