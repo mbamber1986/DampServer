@@ -6,17 +6,7 @@ networks:
 services:
   php:
     container_name: ${prefix}_php
-    build:
-      args:
-        - workdir=${workdir}
-        - user=${user}
-        - uid=${uid}
-      context: ./php
-      dockerfile: Dockerfile
-    environment:
-       - workdir=${workdir}
-        - user=${user}
-        - uid=${uid}
+    image: mbamber1986/php
     networks:
       - backend
     restart: always
@@ -24,12 +14,15 @@ services:
       - ./public_html/:/var/www/html
   apache:
     container_name: ${prefix}_apache
-    build:
-      context: ./apache
-      dockerfile: Dockerfile
-      args:
-        - workdir=${workdir}
-        - web_root=${web_root}
+    image: mbamber1986/apache
+    # build:
+    #   context: ./apache
+    #   dockerfile: Dockerfile
+    #   args:
+    #     - workdir=${workdir}
+    #     - web_root=${web_root}
+    volumes:
+      # - ./apache/vhost.conf:/usr/local/apache2/conf/vhosts.conf
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${prefix}_web.rule=Host(`${domain}`)"

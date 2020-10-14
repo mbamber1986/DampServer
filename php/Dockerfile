@@ -1,11 +1,9 @@
 FROM php:7.4-fpm
 
-# Arguments defined in docker-compose.yml
+# ENVuments defined in docker-compose.yml
 
 
-ARG workdir
-ARG user
-ARG uid
+
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -26,14 +24,14 @@ RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Create system user to run Composer and Artisan Commands
-RUN useradd -G www-data,root -u $uid -d /home/$user $user
-RUN mkdir -p /home/$user/.composer && \
-    chown -R $user:$user /home/$user
+RUN useradd -G www-data,root -u 1000 -d /home/user user
+RUN mkdir -p /home/user/.composer && \
+    chown -R user:user /home/user
 
 # Set working directory
-WORKDIR ${workdir}
+WORKDIR /var/www/html
 
 RUN composer create-project --prefer-dist laravel/laravel src
 
 
-USER $user
+USER user
