@@ -28,12 +28,19 @@ RUN useradd -G www-data,root -u 1000 -d /home/user user
 RUN mkdir -p /home/user/.composer && \
     chown -R user:user /home/user
 
-WORKDIR /var/www/html
+# add laravel installer option
+
+RUN composer global require "laravel/installer=~1.1"
+RUN echo 'export PATH="$PATH:$HOME/.composer/vendor/bin"' >> ~/.bashrc
+RUN bash ~/.bashrc
+
+RUN apt-get update
+
+# WORKDIR /var/www/html
 
 # Set working directory
 
 # RUN composer create-project --prefer-dist laravel/laravel src
 
 
-
-USER user
+# USER user
