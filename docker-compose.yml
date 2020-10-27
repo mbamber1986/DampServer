@@ -11,7 +11,7 @@ services:
     restart: always
     working_dir: ${workdir}
     volumes:
-      - ./public_html/:${workdir}
+      - ~/code/${username}/${container_prefix}:${workdir}
   apache:
     container_name: ${container_prefix}_apache
     image: mbamber1986/apache
