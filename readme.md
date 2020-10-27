@@ -1,4 +1,9 @@
-```Laravel Installer
+## Using our docker file to run a Docker based lamp server with Laravel support
+
+Our  Lamp server is based on docker debian based linux httpd 2.4.46 and php 7.4-fpm using docker images mbamber1986/apache and mbamber1986/php if you wish to create your own versions of php-fpm and apache for your personal customisation simply download my source code.
+
+
+```Docker Lamp server
 // using my .env file to link both containers together
 
 //if you wish to use a universal container name ie yourwebsite_php yourwebsite_apache user the ${container_prefix} variable inside your docker-compose file
@@ -14,7 +19,8 @@ workdir = /var/www/html
 // this installer will requires both the apache and php-fpm repositories 
 version: "3.2"
 networks:
-  web
+  web:
+    external: true
   backend:
 services:
   php:
@@ -55,4 +61,31 @@ services:
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=rootpassword
+```
+
+# Instalation
+
+simply run the command  from the root foler where your docker-compose.yml file is held: 
+```
+docker-compose up -d
+``` 
+if you wish to recreated any created instances use --force-recreate
+
+## installing Laravel
+
+Our package has support for laravel and will work by doing the following seteps
+
+### Step 1 : enter docker exec
+
+use the following commands to enter docker exec
+
+```
+docker exec -it container_name /bin/bash
+
+```
+### step 2: installing laravel
+
+from the root of your working directory in our instance /var/www/html enter 
+```
+composer create-project --prefer-dist laravel/laravel src
 ```
