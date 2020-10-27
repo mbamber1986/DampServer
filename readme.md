@@ -62,7 +62,6 @@ services:
   apache:
     container_name: ${container_prefix}_apache
     image: mbamber1986/apache
-<!-- Ports optional use these if your website is not behind some form of reverse proxy package ie : traefik or nginx own reverse proxy -->
     ports:
       - 80:80
       - 443:443
