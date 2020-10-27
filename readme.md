@@ -20,7 +20,6 @@ workdir = /var/www/html
 version: "3.2"
 networks:
   web:
-    external: true
   backend:
 services:
   php:
@@ -31,11 +30,11 @@ services:
     restart: always
     working_dir: ${workdir}
     volumes:
-    #set your path to your own code in our example we used ./public_html  which is  in our source code change this to what ever your need to making sure your have the correct permissions
-      - ./public_htmk:${workdir} 
+      - ./public_html/:${workdir}
   apache:
     container_name: ${container_prefix}_apache
     image: mbamber1986/apache
+# Ports optional use these if your website is not behind some form of reverse proxy package ie : traefik or nginx own reverse proxy
     ports:
       - 80:80
       - 443:443
