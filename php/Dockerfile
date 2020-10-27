@@ -1,5 +1,4 @@
 FROM php:7.4-fpm
-
 # ENVuments defined in docker-compose.yml
 
 
