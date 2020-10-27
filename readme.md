@@ -1,3 +1,31 @@
+<!-- Write about the project  -->
+<!-- How to use the docker-compose file -->
+<!-- How to install laravel -->
+<!-- how to use docker exec -->
+<!-- Optional flags -->
+<!-- Envirmental variables -->
+
+# About My Docker Based Lamp Server
+this project was built by myself simply because i didnt like the restrictions or limitations when i was using laragon or homestead to create my own laravel and php based projects, from this point i was then instroduced to docker and from there i felt this was the way to go.
+
+I have built this project for personal use but feel if it can help others they are free to use or customise it hence why i am sharing all the associated files with it.
+
+## Whats included
+
+Apache (httpd 2.4.46)
+php 7.4-fpm
+mysql (default image from docker)
+composer support via php fpm
+laravel support
+
+
+## Future plans 
+i am currently looking at adding node js package manager via nvm
+
+## The .Env files and how they are related
+
+## The Docker-compose base file and what is needed
+
 ## Using our docker file to run a Docker based lamp server with Laravel support
 
 Our  Lamp server is based on docker debian based linux httpd 2.4.46 and php 7.4-fpm using docker images mbamber1986/apache and mbamber1986/php if you wish to create your own versions of php-fpm and apache for your personal customisation simply download my source code.
@@ -34,7 +62,7 @@ services:
   apache:
     container_name: ${container_prefix}_apache
     image: mbamber1986/apache
-# Ports optional use these if your website is not behind some form of reverse proxy package ie : traefik or nginx own reverse proxy
+<!-- Ports optional use these if your website is not behind some form of reverse proxy package ie : traefik or nginx own reverse proxy -->
     ports:
       - 80:80
       - 443:443
@@ -64,8 +92,8 @@ services:
 ```
 
 # Instalation
-
-simply run the command  from the root foler where your docker-compose.yml file is held: 
+<!--  Add information about this section-->
+simply run the command  from the root folder where your docker-compose.yml file is held: 
 ```
 docker-compose up -d
 ``` 
