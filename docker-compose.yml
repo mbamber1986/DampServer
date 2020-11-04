@@ -63,3 +63,4 @@ services:
     environment:
       - DOMAIN=apache
       - PORT=80
+    restart: always
