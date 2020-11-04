@@ -25,7 +25,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Create system user to run Composer and Artisan Commands
 RUN useradd -G www-data,root -u 1000 -d /home/user user
 RUN mkdir -p /home/user/.composer && \
-    chown -R user:user /home/user
+    chown -R user:user /home/user && \ 
+    chown www-data /var/www -R
 
 # add laravel installer option
 

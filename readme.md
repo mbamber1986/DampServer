@@ -42,8 +42,6 @@ www_root=/var/www/html/public_html
 
 // the working dir which you will start from when using docker exec in my setup i have used /var/ww/html as my route directory
 workdir = /var/www/html
-
-
 // this installer will requires both the apache and php-fpm repositories 
 version: "3.2"
 networks:

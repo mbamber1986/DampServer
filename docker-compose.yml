@@ -1,6 +1,7 @@
 version: "3.2"
 networks:
   web:
+    external: true
   backend:
 services:
   php:
@@ -11,23 +12,18 @@ services:
     restart: always
     working_dir: ${workdir}
     volumes:
-      - ~/code/${username}/${container_prefix}:${workdir}
+      - ./www/:${workdir}
   apache:
     container_name: ${container_prefix}_apache
     image: mbamber1986/apache
-    # Traefik labes
-    # labels:
-    #   - "traefik.enable=true"
-    #   - "traefik.http.routers.${container_prefix}_web.rule=Host(`${domain}`)"
-    #   - "traefik.http.routers.${container_prefix}_web.entrypoints=web"
-    #   - "traefik.http.routers.${container_prefix}_websecure.rule=Host(`${domain}`)"
-    #   - "traefik.http.routers.${container_prefix}_websecure.entrypoints=websecure"
-    #   - "traefik.http.routers.${container_prefix}_websecure.tls.certresolver=myresolver"
-    #   - "traefik.docker.network=web"
-# Ports optional if you are not using a route forwarder
-    ports:
-      - 80:80
-      - 443:443
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${container_prefix}_web.rule=Host(`${domain}`)"
+      - "traefik.http.routers.${container_prefix}_web.entrypoints=web"
+      - "traefik.http.routers.${container_prefix}_websecure.rule=Host(`${domain}`)"
+      - "traefik.http.routers.${container_prefix}_websecure.entrypoints=websecure"
+      - "traefik.http.routers.${container_prefix}_websecure.tls.certresolver=myresolver"
+      - "traefik.docker.network=web"
     working_dir: ${workdir}
     environment:
       - workdir=${workdir}
@@ -40,7 +36,7 @@ services:
       - backend
     restart: always
     volumes:
-      - ./public_html/:${workdir}
+      - ./www/:${workdir}
   mysql:
     container_name: ${container_prefix}_mysql
     image: mysql:5.6.40
@@ -51,3 +47,19 @@ services:
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=rootpassword
+  ngrok:
+    image: shkoliar/ngrok:latest
+    container_name: ${container_prefix}_ngrok
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${container_prefix}_ngrok.rule=Host(`${domain}`)"
+      - "traefik.http.routers.${container_prefix}_ngrok.entrypoints=webngrok"
+      - "traefik.docker.network=web"
+    links: 
+      - apache
+    networks:
+      - web
+      - backend
+    environment:
+      - DOMAIN=apache
+      - PORT=80
