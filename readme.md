@@ -114,3 +114,25 @@ from the root of your working directory in our instance /var/www/html enter
 ```
 composer create-project --prefer-dist laravel/laravel src
 ```
+
+
+#Support with ngrok
+
+```
+
+  ngrok:
+    image: shkoliar/ngrok:latest
+    container_name: ${container_prefix}_ngrok
+    links: 
+      - apache
+    ports:
+      - 4551
+    networks:
+      - web
+      - backend
+    environment:
+      - DOMAIN=apache
+      - PORT=80
+    restart: always
+
+```

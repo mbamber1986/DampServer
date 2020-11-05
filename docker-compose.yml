@@ -16,14 +16,6 @@ services:
   apache:
     container_name: ${container_prefix}_apache
     image: mbamber1986/apache
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.${container_prefix}_web.rule=Host(`${domain}`)"
-      - "traefik.http.routers.${container_prefix}_web.entrypoints=web"
-      - "traefik.http.routers.${container_prefix}_websecure.rule=Host(`${domain}`)"
-      - "traefik.http.routers.${container_prefix}_websecure.entrypoints=websecure"
-      - "traefik.http.routers.${container_prefix}_websecure.tls.certresolver=myresolver"
-      - "traefik.docker.network=web"
     working_dir: ${workdir}
     environment:
       - workdir=${workdir}
@@ -50,13 +42,10 @@ services:
   ngrok:
     image: shkoliar/ngrok:latest
     container_name: ${container_prefix}_ngrok
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.${container_prefix}_ngrok.rule=Host(`${domain}`)"
-      - "traefik.http.routers.${container_prefix}_ngrok.entrypoints=webngrok"
-      - "traefik.docker.network=web"
     links: 
       - apache
+    ports:
+      - 4551
     networks:
       - web
       - backend
