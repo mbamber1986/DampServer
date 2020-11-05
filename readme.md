@@ -25,9 +25,7 @@ i am currently looking at adding node js package manager via nvm
 ## The .Env files and how they are related
 
 ```
-username=martin
-domain=martinsblog.co.uk
-container_prefix=martinsblog
+container_prefix=container_prefix
 web_root=/var/www/html/test
 workdir=/var/www/html
 
