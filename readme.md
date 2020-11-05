@@ -24,6 +24,15 @@ i am currently looking at adding node js package manager via nvm
 
 ## The .Env files and how they are related
 
+```
+username=martin
+domain=martinsblog.co.uk
+container_prefix=martinsblog
+web_root=/var/www/html/test
+workdir=/var/www/html
+
+```
+
 ## The Docker-compose base file and what is needed
 
 ## Using our docker file to run a Docker based lamp server with Laravel support
@@ -113,6 +122,7 @@ docker exec -it container_name /bin/bash
 from the root of your working directory in our instance /var/www/html enter 
 ```
 composer create-project --prefer-dist laravel/laravel src
+
 ```
 
 
