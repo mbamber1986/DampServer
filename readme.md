@@ -1,6 +1,6 @@
 # (DAMPSERVER)  A linux apache php-fpm server built for Docker #
 
-#Introductiuon#
+# Introductiuon
 The DAMPserver is  a work in progress project that is designed to simply deploy websites with ease using .env and variables which are linked with apache vhost files as well as the docker-compose file  allowing for the easy deployment of websites in a quick and easy manner.
 
 I have chose to release this package as an open source project  allowing others to customise this project to your own needs and delploy there own websites with ease.
@@ -112,7 +112,7 @@ docker exec -it container_name /bin/bash
 ```
 
 
-# optial setups that i added to my server 
+# optional setups that i added to my server 
 
 ### traefik
 using this will require the installation of traefik and will require the removal of ports from the docker compose files
