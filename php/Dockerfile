@@ -1,6 +1,4 @@
 FROM php:7.4-fpm
-# ENVuments defined in docker-compose.yml
-
 
 ENV workdir = ${workdir}
 
@@ -36,4 +34,3 @@ RUN bash ~/.bashrc
 RUN apt-get update
 
 # RUN composer create-project --prefer-dist laravel/laravel src
-
